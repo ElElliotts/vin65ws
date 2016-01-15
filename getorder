@@ -1,0 +1,46 @@
+from suds.client import Client
+#import csv
+from openpyxl import *
+
+url = 'https://webservices.vin65.com/V301/OrderService.cfc?wsdl'
+# if True, the retxml attribute returns XML format; you probably don't want True
+client = Client(url, retxml = False) 
+
+#to get methods, run this:
+#for method in client.wsdl.services[0].ports[0].methods.values():
+#	print('%s(%s)' % (method.name, ', '.join('%s: %s' % (part.type, part.name) for part in method.soap.input.body.parts)))
+
+
+#client.factory.create must map to a namespace in the xml
+#print the client to see which namespaces exist
+#print client
+#client.factory.create() forms a function with the args you give it (even if the args don't exist in the xml)
+#in this case, we only need to pass Security and an OrderID
+
+request = client.factory.create("ns3:Request")
+
+request.Security = {
+	'Password':'*****',
+	'Username':'*****',
+}
+request.OrderID = '5A66A0F5-A704-4F1F-7A11-C424B6B1028F'
+
+#to see if your args are mapping to what the webservice wants, print the request
+#print request
+
+#this inits the actual GetOrderDetail service and passes the request you gave it:
+response = client.service.GetOrderDetail(request)
+
+#print the reponse. note: depending on retxml, you get xml or dicts(?)
+print response
+
+# write it to a csv file
+#todo: find the headers, write the headers to the first row
+#todo: take the values in the dict(?) and write them to subsequent rows
+#todo: when there is more than one order, write a for loop that writes the values to subsequent rows
+#todo: automate the name of the file to be a readable date because this script will run daily 
+
+#with open('c:/suds/orders/data2.csv', 'wb') as f:
+#	writer = csv.writer(f, delimiter=' ',quotechar='|', quoting=csv.QUOTE_MINIMAL)
+#	writer.writerow(response)
+
