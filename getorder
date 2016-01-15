@@ -1,6 +1,6 @@
 from suds.client import Client
-#import csv
-from openpyxl import *
+import csv
+#from openpyxl import *
 
 url = 'https://webservices.vin65.com/V301/OrderService.cfc?wsdl'
 # if True, the retxml attribute returns XML format; you probably don't want True
@@ -40,7 +40,7 @@ print response
 #todo: when there is more than one order, write a for loop that writes the values to subsequent rows
 #todo: automate the name of the file to be a readable date because this script will run daily 
 
-#with open('c:/suds/orders/data2.csv', 'wb') as f:
-#	writer = csv.writer(f, delimiter=' ',quotechar='|', quoting=csv.QUOTE_MINIMAL)
-#	writer.writerow(response)
+with open('c:/suds/orders/data2.csv', 'wb') as f:
+	writer = csv.writer(f, delimiter=' ',quotechar='|', quoting=csv.QUOTE_MINIMAL)
+	writer.writerow(response)
 
